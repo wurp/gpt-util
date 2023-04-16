@@ -2,13 +2,14 @@
 
 import openai
 import re
-# Feel free to remove this if it doesn't resolve; see openai.api_key below
 import pii
 
 # Set the API key
-# You can drop 'import pii' and replace this with 'YOUR_OPENAI_API_KEY'
 openai.api_key = pii.openai_api_key
 
+# Actual max tokens for gpt-3.5-turbo is 4096, but let's summarize before
+# we get too close. Note that if a single request takes up 1096 tokens
+# this will overflow.
 #MAX_TOKENS_BEFORE_SUMMARY=110
 #MAX_TOKENS_AFTER_SUMMARY=80
 MAX_TOKENS_BEFORE_SUMMARY=3000
