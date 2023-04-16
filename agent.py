@@ -2,8 +2,14 @@
 
 import openai
 import re
-# If this import fails, copy pii.py.template to pii.py and edit it to have your key
-import pii
+import sys
+
+try:
+  import pii
+except ImportError as impErr:
+    print("Copy pii.py.template to pii.py and edit it to add your key")
+    #print("[Error]: Failed to import (Import Error) {}.".format(impErr.args[0]))
+    sys.exit(1)
 
 # Set the API key
 openai.api_key = pii.openai_api_key
@@ -27,7 +33,7 @@ class ChatConversation:
     self.totalTokens = 0
 
   def asMessage(self, m):
-    if m['role']:
+    if 'role' in m:
       return m
     else:
       return m['choices'][0]['message']
@@ -47,8 +53,6 @@ class ChatConversation:
     reply = None
     if replyObj:
       reply = replyObj['content']
-      completion['content'] = reply
-      completion['role'] = replyObj['role']
 
     return reply
 
@@ -62,7 +66,8 @@ class ChatConversation:
       return self.messagesToString(self.messages)
 
   def messagesToString(self, messages):
-      return "\n\n".join([m['role'] + " said: \"" + m['content'] + "\"\n" for m in messages if m['role'] != 'system'])
+      simpleMessages = [self.asMessage(m) for m in messages if 'role' not in m or m['role'] != 'system']
+      return "\n\n".join([m['role'] + " said: \"" + m['content'] + "\"\n" for m in simpleMessages])
 
   def summarize(self):
     prevMessages = self.convo()
