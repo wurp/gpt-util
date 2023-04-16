@@ -2,6 +2,7 @@
 
 import openai
 import re
+# If this import fails, copy pii.py.template to pii.py and edit it to have your key
 import pii
 
 # Set the API key
