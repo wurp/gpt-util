@@ -35,6 +35,7 @@ class ChatConversation:
   def asMessage(self, m):
     if 'role' in m:
       return m
+    #else it's a full response object from ChatGPT, slice out the bit we want
     else:
       return m['choices'][0]['message']
 
@@ -86,9 +87,12 @@ class ChatConversation:
     return replyObj['content'] if replyObj else None
 
   # Pretend you had an exchange with the agent
-  def replay(request, reply):
+  def replay(self, request, reply):
     self.messages.append({'role': 'user', 'content': request})
     self.messages.append({'role': 'assistant', 'content': reply})
+
+  def getLatestExchange(self):
+    return [self.messages[-2], self.messages[-1]]
 
 def example():
   agent=ChatConversation("You are a master of linguistics and children's literature.")
