@@ -14,6 +14,7 @@ def parseArgs():
   parser.add_argument('--convo', '-c', type=str)
   parser.add_argument('--role', '-r', type=str)
   parser.add_argument('--input', '-i', type=str, help="Read input from file")
+  parser.add_argument('--verbose', '-v', action='store_true', help="Enable verbose output")
 
   # Parse the command-line arguments
   return parser.parse_args()
@@ -78,17 +79,20 @@ class Convo:
 
 def main():
   args = parseArgs()
+  verbose = args.verbose
+
   if args.convo:
     convo = Convo(identifier=args.convo)
     agent = convo.createChatConversation()
     latestExchange = agent.getLatestExchange()
-    if latestExchange and len(latestExchange) > 0:
+    if verbose and latestExchange and len(latestExchange) > 0:
       print("You last said to me: " + agent.asMessage(latestExchange[0])['content'])
       print("and I replied: " + agent.asMessage(latestExchange[1])['content'])
   else:
     system = args.role
     convo = Convo(system) 
-    print("Conversation id: " + convo.id())
+    if verbose:
+      print("Conversation id: " + convo.id())
 
   agent = convo.createChatConversation()
 
