@@ -17,7 +17,8 @@ def parseArgs():
   return parser.parse_args()
 
 class Convo:
-  def __init__(self, system = "You are a helpful assistant.", identifier = None):
+  def __init__(self, system, identifier = None):
+    if not system: system = "You are a helpful assistant."
     self.system = system
     self.agent = None
     if identifier:
@@ -59,7 +60,8 @@ class Convo:
 
   def loadConvo(self):
       system = self._readTempFile("system")
-      if system: self.system = system
+      if system:
+        self.system = system
 
       self.createChatConversation()
 

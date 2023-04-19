@@ -25,7 +25,7 @@ MAX_TOKENS_AFTER_SUMMARY=2000
 # Maintain a threaded conversation with ChatGPT, sending one message at a time
 # and getting a response that takes into account the conversation so far.
 class ChatConversation:
-  def __init__(self, agentDescription, modelEngine = 'gpt-3.5-turbo', temperature=0.7):
+  def __init__(self, agentDescription = "You are a helpful assistant.", modelEngine = 'gpt-3.5-turbo', temperature=0.7):
     self.agentDescription = agentDescription
     self.modelEngine = modelEngine
     self.temperature = temperature
