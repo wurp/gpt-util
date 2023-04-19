@@ -2,6 +2,7 @@ import chat_conversation
 import argparse
 import json
 import os
+import sys
 import tempfile
 import pathlib
 
@@ -12,6 +13,7 @@ def parseArgs():
   # Add the --convo argument
   parser.add_argument('--convo', '-c', type=str)
   parser.add_argument('--role', '-r', type=str)
+  parser.add_argument('--input', '-i', type=str, help="Read input from file")
 
   # Parse the command-line arguments
   return parser.parse_args()
@@ -90,7 +92,16 @@ def main():
 
   agent = convo.createChatConversation()
 
-  request = input("> ")
+  # Read input from the file if -i option is provided, else read from command line
+  if args.input:
+    if args.input == '-':
+      request = sys.stdin.read().strip()
+    else:
+      with open(args.input, 'r') as input_file:
+        request = input_file.read().strip()
+  else:
+    request = input("> ")
+
   print(agent.chat(request))
 
   convo.addExchange(agent.getLatestExchange())
