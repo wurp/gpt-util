@@ -16,6 +16,7 @@ def parseArgs():
   parser.add_argument('--input', '-i', type=str, help="Read input from file")
   parser.add_argument('--verbose', '-v', action='store_true', help="Enable verbose output")
 
+
   # Parse the command-line arguments
   return parser.parse_args()
 

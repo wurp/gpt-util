@@ -14,18 +14,23 @@ except ImportError as impErr:
 # Set the API key
 openai.api_key = pii.openai_api_key
 
-# Actual max tokens for gpt-3.5-turbo is 4096, but let's summarize before
-# we get too close. Note that if a single request takes up 1096 tokens
+## Actual max tokens for gpt-3.5-turbo is 4096, but let's summarize before
+# Actual max tokens for gpt-4 is 8192, but let's summarize before
+# we get too close. Note that if a single request takes up 1192 tokens
 # this will overflow.
 #MAX_TOKENS_BEFORE_SUMMARY=110
 #MAX_TOKENS_AFTER_SUMMARY=80
-MAX_TOKENS_BEFORE_SUMMARY=3000
-MAX_TOKENS_AFTER_SUMMARY=2000
+MAX_TOKENS_BEFORE_SUMMARY=7000
+MAX_TOKENS_AFTER_SUMMARY=4000
+
+#Valid modelEngines:
+# 'gpt-3.5-turbo'
+# 'gpt-4'
 
 # Maintain a threaded conversation with ChatGPT, sending one message at a time
 # and getting a response that takes into account the conversation so far.
 class ChatConversation:
-  def __init__(self, agentDescription = "You are a helpful assistant.", modelEngine = 'gpt-3.5-turbo', temperature=0.7):
+  def __init__(self, agentDescription = "You are a helpful assistant.", modelEngine = 'gpt-4', temperature=0.7):
     self.agentDescription = agentDescription
     self.modelEngine = modelEngine
     self.temperature = temperature
